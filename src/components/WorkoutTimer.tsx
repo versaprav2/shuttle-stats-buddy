@@ -45,7 +45,10 @@ interface TimerSettings {
   longRestDuration: number;
   longRestAfter: number;
   countdownWarning: number;
-  timerMode: "standard" | "tabata" | "emom" | "custom";
+  timerMode: "standard" | "tabata" | "emom" | "session" | "custom";
+  sessionTotalMinutes: number;
+  sessionIntervals: number;
+  sessionPauseSeconds: number;
 }
 
 type TimerPhase = "prep" | "work" | "rest" | "longrest" | "completed";
@@ -63,6 +66,9 @@ export const WorkoutTimer = () => {
     longRestAfter: 4,
     countdownWarning: 3,
     timerMode: "standard",
+    sessionTotalMinutes: 45,
+    sessionIntervals: 15,
+    sessionPauseSeconds: 120,
   });
 
   const [isRunning, setIsRunning] = useState(false);
@@ -80,7 +86,7 @@ export const WorkoutTimer = () => {
     }
   }, [settings.soundEnabled]);
 
-  const playBeep = (frequency: number, duration: number) => {
+  const playBeep = (frequency: number, duration: number, delay: number = 0) => {
     if (!settings.soundEnabled || !audioContextRef.current) return;
     
     const ctx = audioContextRef.current;
@@ -93,11 +99,24 @@ export const WorkoutTimer = () => {
     oscillator.frequency.value = frequency;
     oscillator.type = "sine";
     
-    gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+    const startTime = ctx.currentTime + delay;
+    gainNode.gain.setValueAtTime(0.3, startTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
     
-    oscillator.start(ctx.currentTime);
-    oscillator.stop(ctx.currentTime + duration);
+    oscillator.start(startTime);
+    oscillator.stop(startTime + duration);
+  };
+
+  const playMultipleBeeps = (count: number, frequency: number) => {
+    for (let i = 0; i < count; i++) {
+      playBeep(frequency, 0.15, i * 0.3);
+    }
+  };
+
+  const playStartSequence = () => {
+    playBeep(600, 0.2, 0);
+    playBeep(800, 0.2, 0.3);
+    playBeep(1000, 0.3, 0.6);
   };
 
   useEffect(() => {
@@ -108,14 +127,18 @@ export const WorkoutTimer = () => {
         setTimeRemaining((prev) => {
           const newTime = prev - 1;
           
-          // Warning beep
-          if (newTime <= settings.countdownWarning && newTime > 0) {
-            playBeep(800, 0.1);
+          // Warning beeps - 3 seconds before end
+          if (newTime === 3) {
+            playBeep(800, 0.1, 0);
+          } else if (newTime === 2) {
+            playBeep(800, 0.1, 0);
+          } else if (newTime === 1) {
+            playBeep(800, 0.1, 0);
           }
           
-          // Phase end beep
+          // Phase end - 3 beeps
           if (newTime === 0) {
-            playBeep(1200, 0.2);
+            playMultipleBeeps(3, 1200);
           }
           
           return newTime;
@@ -183,7 +206,9 @@ export const WorkoutTimer = () => {
     if (currentPhase === "completed") {
       handleReset();
     }
+    playStartSequence();
     setIsRunning(true);
+    toast.success("Timer Started!", { description: "Let's go! 💪" });
   };
 
   const handlePause = () => {
@@ -198,8 +223,43 @@ export const WorkoutTimer = () => {
     setTimeRemaining(settings.prepTime);
   };
 
+  const calculateSessionSettings = () => {
+    const totalSeconds = settings.sessionTotalMinutes * 60;
+    const pauseSeconds = settings.sessionPauseSeconds;
+    const intervals = settings.sessionIntervals;
+    
+    // Total pause time
+    const totalPauseTime = pauseSeconds * (intervals - 1);
+    // Remaining time for work intervals
+    const totalWorkTime = totalSeconds - totalPauseTime;
+    // Each work interval duration
+    const workDuration = Math.floor(totalWorkTime / intervals);
+    
+    return {
+      workDuration,
+      restDuration: pauseSeconds,
+      rounds: intervals,
+    };
+  };
+
   const applyPreset = (mode: string) => {
     switch (mode) {
+      case "session":
+        const sessionCalc = calculateSessionSettings();
+        setSettings({
+          ...settings,
+          workDuration: sessionCalc.workDuration,
+          restDuration: sessionCalc.restDuration,
+          rounds: sessionCalc.rounds,
+          prepTime: 10,
+          workIntervals: 1,
+          longRestAfter: 0,
+          timerMode: "session",
+        });
+        toast.success("Session Mode", {
+          description: `${settings.sessionIntervals} intervals of ${Math.floor(sessionCalc.workDuration / 60)}m ${sessionCalc.workDuration % 60}s work + ${Math.floor(sessionCalc.restDuration / 60)}m pause`,
+        });
+        break;
       case "tabata":
         setSettings({
           ...settings,
@@ -325,12 +385,59 @@ export const WorkoutTimer = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="standard">Standard Intervals</SelectItem>
+                      <SelectItem value="session">Session Mode (Auto-calculate)</SelectItem>
                       <SelectItem value="tabata">Tabata (20/10)</SelectItem>
                       <SelectItem value="emom">EMOM (Every Minute)</SelectItem>
                       <SelectItem value="custom">Custom</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+
+                {settings.timerMode === "session" && (
+                  <Card className="p-4 bg-primary/5 border-primary/20">
+                    <h4 className="font-semibold mb-3">Session Settings</h4>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <Label className="text-xs">Total Minutes</Label>
+                        <Input
+                          type="number"
+                          value={settings.sessionTotalMinutes}
+                          onChange={(e) => {
+                            setSettings({ ...settings, sessionTotalMinutes: Number(e.target.value) });
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs">Intervals</Label>
+                        <Input
+                          type="number"
+                          value={settings.sessionIntervals}
+                          onChange={(e) => {
+                            setSettings({ ...settings, sessionIntervals: Number(e.target.value) });
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-xs">Pause (sec)</Label>
+                        <Input
+                          type="number"
+                          value={settings.sessionPauseSeconds}
+                          onChange={(e) => {
+                            setSettings({ ...settings, sessionPauseSeconds: Number(e.target.value) });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full mt-3"
+                      onClick={() => applyPreset("session")}
+                    >
+                      Calculate & Apply
+                    </Button>
+                  </Card>
+                )}
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
