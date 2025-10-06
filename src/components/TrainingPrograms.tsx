@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Clock, Zap, Target, Footprints, Dumbbell, Info } from "lucide-react";
 import { toast } from "sonner";
-import { WorkoutTimer } from "./WorkoutTimer";
 import { DrillDetailModal } from "./DrillDetailModal";
 
 interface Drill {
@@ -389,14 +388,27 @@ export const TrainingPrograms = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold mb-2">Training Programs</h2>
-        <p className="text-muted-foreground">
-          Structured drills to elevate your badminton skills
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            Fundamentals
+          </h2>
+          <p className="text-muted-foreground">
+            Master essential drills to improve your game
+          </p>
+        </div>
+        <Card className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-primary/10 rounded-lg">
+              <Target className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Completed</p>
+              <p className="text-2xl font-bold">{completedDrills.size}/{drills.length}</p>
+            </div>
+          </div>
+        </Card>
       </div>
-
-      <WorkoutTimer />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {drills.map((drill, index) => {
@@ -448,19 +460,13 @@ export const TrainingPrograms = () => {
       <Card className="p-6 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20">
         <div className="flex items-start gap-4">
           <div className="p-3 bg-primary/20 rounded-xl">
-            <Target className="w-8 h-8 text-primary" />
+            <Zap className="w-8 h-8 text-primary" />
           </div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold mb-2">Training Progress</h3>
-            <p className="text-muted-foreground mb-4">
-              You've completed {completedDrills.size} out of {drills.length} drills. Keep training!
+            <h3 className="text-xl font-bold mb-2">Keep Training!</h3>
+            <p className="text-muted-foreground">
+              Complete all fundamental drills to unlock achievements and build a strong foundation for advanced techniques.
             </p>
-            <div className="w-full bg-muted rounded-full h-3 mb-4">
-              <div 
-                className="bg-gradient-to-r from-primary to-accent h-3 rounded-full transition-all duration-500"
-                style={{ width: `${(completedDrills.size / drills.length) * 100}%` }}
-              />
-            </div>
           </div>
         </div>
       </Card>

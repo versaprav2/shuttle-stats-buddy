@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Activity, Target, Trophy, Menu, X, LogOut, User } from "lucide-react";
+import { Activity, Target, Trophy, Menu, X, LogOut, User, Timer, Calendar, Award } from "lucide-react";
 import { Dashboard } from "@/components/Dashboard";
 import { MatchTracker } from "@/components/MatchTracker";
 import { TrainingPrograms } from "@/components/TrainingPrograms";
+import { TrainingPlans } from "@/components/TrainingPlans";
+import { WorkoutTimer } from "@/components/WorkoutTimer";
+import { Achievements } from "@/components/Achievements";
 import { AuthForm, UserProfile } from "@/components/AuthForm";
 import heroImage from "@/assets/hero-badminton.jpg";
 import { toast } from "sonner";
 
-type View = "home" | "dashboard" | "matches" | "training";
+type View = "home" | "dashboard" | "matches" | "plans" | "fundamentals" | "timer" | "achievements";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<View>("home");
@@ -42,7 +45,10 @@ const Index = () => {
   const navigationItems = [
     { id: "dashboard" as View, label: "Dashboard", icon: <Activity className="w-5 h-5" /> },
     { id: "matches" as View, label: "Matches", icon: <Trophy className="w-5 h-5" /> },
-    { id: "training" as View, label: "Training", icon: <Target className="w-5 h-5" /> },
+    { id: "plans" as View, label: "Training Plans", icon: <Calendar className="w-5 h-5" /> },
+    { id: "fundamentals" as View, label: "Fundamentals", icon: <Target className="w-5 h-5" /> },
+    { id: "timer" as View, label: "Timer", icon: <Timer className="w-5 h-5" /> },
+    { id: "achievements" as View, label: "Achievements", icon: <Award className="w-5 h-5" /> },
   ];
 
   const renderContent = () => {
@@ -51,8 +57,14 @@ const Index = () => {
         return <Dashboard />;
       case "matches":
         return <MatchTracker />;
-      case "training":
+      case "plans":
+        return <TrainingPlans />;
+      case "fundamentals":
         return <TrainingPrograms />;
+      case "timer":
+        return <WorkoutTimer />;
+      case "achievements":
+        return <Achievements />;
       default:
         return (
           <div className="space-y-12">
@@ -76,18 +88,18 @@ const Index = () => {
                     <Button
                       variant="energy"
                       size="lg"
-                      onClick={() => setCurrentView("matches")}
+                      onClick={() => setCurrentView("plans")}
                       className="text-lg"
                     >
-                      Log a Match
+                      View Training Plans
                     </Button>
                     <Button
                       variant="outline"
                       size="lg"
-                      onClick={() => setCurrentView("training")}
+                      onClick={() => setCurrentView("fundamentals")}
                       className="text-lg bg-white/10 text-white border-white hover:bg-white hover:text-primary backdrop-blur-sm"
                     >
-                      Start Training
+                      Practice Drills
                     </Button>
                   </div>
                 </div>
@@ -95,34 +107,34 @@ const Index = () => {
             </div>
 
             {/* Features Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="p-8 border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("dashboard")}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card className="p-6 border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("plans")}>
                 <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-                  <Activity className="w-10 h-10 text-primary" />
+                  <Calendar className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Track Progress</h3>
-                <p className="text-muted-foreground">
-                  Monitor your performance with detailed statistics and insights
+                <h3 className="text-xl font-bold mb-2">Training Plans</h3>
+                <p className="text-sm text-muted-foreground">
+                  Structured programs from weekly to yearly
                 </p>
               </Card>
 
-              <Card className="p-8 border-2 hover:border-secondary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("matches")}>
+              <Card className="p-6 border-2 hover:border-secondary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("fundamentals")}>
                 <div className="p-4 bg-gradient-to-br from-secondary/10 to-orange-500/10 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-                  <Trophy className="w-10 h-10 text-secondary" />
+                  <Target className="w-8 h-8 text-secondary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Log Matches</h3>
-                <p className="text-muted-foreground">
-                  Record every match with scores, opponents, and notes
+                <h3 className="text-xl font-bold mb-2">Fundamentals</h3>
+                <p className="text-sm text-muted-foreground">
+                  Master essential badminton techniques
                 </p>
               </Card>
 
-              <Card className="p-8 border-2 hover:border-accent/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("training")}>
+              <Card className="p-6 border-2 hover:border-accent/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("achievements")}>
                 <div className="p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-                  <Target className="w-10 h-10 text-accent" />
+                  <Award className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-2xl font-bold mb-3">Structured Training</h3>
-                <p className="text-muted-foreground">
-                  Follow expert-designed drills to improve specific skills
+                <h3 className="text-xl font-bold mb-2">Achievements</h3>
+                <p className="text-sm text-muted-foreground">
+                  Unlock badges and track your progress
                 </p>
               </Card>
             </div>
