@@ -8,9 +8,14 @@ import { TrainingPrograms } from "@/components/TrainingPrograms";
 import { TrainingPlans } from "@/components/TrainingPlans";
 import { WorkoutTimer } from "@/components/WorkoutTimer";
 import { Achievements } from "@/components/Achievements";
+import { Onboarding } from "@/components/Onboarding";
+import { QuickActions } from "@/components/QuickActions";
+import { MilestoneCelebration, checkMilestones } from "@/components/MilestoneCelebration";
+import { ShareProgress } from "@/components/ShareProgress";
 import { AuthForm, UserProfile } from "@/components/AuthForm";
 import heroImage from "@/assets/hero-badminton.jpg";
 import { toast } from "sonner";
+import { useGamification } from "@/hooks/useGamification";
 
 type View = "home" | "dashboard" | "matches" | "plans" | "fundamentals" | "timer" | "achievements";
 
@@ -18,16 +23,39 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<View>("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [milestone, setMilestone] = useState<any>(null);
+  const [shareData, setShareData] = useState<any>(null);
+  const { addXP, updateStreak } = useGamification();
 
   useEffect(() => {
     const saved = localStorage.getItem("userProfile");
     if (saved) {
       setUserProfile(JSON.parse(saved));
+      
+      // Check if onboarding completed
+      const onboardingComplete = localStorage.getItem("onboardingComplete");
+      if (!onboardingComplete) {
+        setShowOnboarding(true);
+      }
+
+      // Check for milestones
+      const detectedMilestone = checkMilestones();
+      if (detectedMilestone) {
+        setMilestone(detectedMilestone);
+        if (detectedMilestone.xp) {
+          addXP(detectedMilestone.xp);
+        }
+      }
+
+      // Update streak
+      updateStreak();
     }
   }, []);
 
   const handleAuth = (profile: UserProfile) => {
     setUserProfile(profile);
+    setShowOnboarding(true);
   };
 
   const handleLogout = () => {
@@ -36,6 +64,33 @@ const Index = () => {
     setUserProfile(null);
     setCurrentView("home");
     toast.success("Logged out successfully");
+  };
+
+  const handleQuickAction = (action: "match" | "timer" | "drill") => {
+    switch (action) {
+      case "match":
+        setCurrentView("matches");
+        toast.info("Quick log a match!");
+        break;
+      case "timer":
+        setCurrentView("timer");
+        toast.info("Timer ready!");
+        break;
+      case "drill":
+        setCurrentView("fundamentals");
+        toast.info("Choose a drill to complete!");
+        break;
+    }
+  };
+
+  const handleShareMilestone = () => {
+    if (milestone) {
+      setShareData({
+        type: milestone.type === "level" ? "milestone" : milestone.type,
+        stats: milestone.xp ? { xp: milestone.xp, level: Math.floor(parseInt(localStorage.getItem("userXP") || "0") / 500) + 1 } : {},
+        achievement: milestone.type === "achievement" ? { name: milestone.title, description: milestone.message } : undefined,
+      });
+    }
   };
 
   if (!userProfile) {
@@ -244,6 +299,28 @@ const Index = () => {
           <p>© 2025 BadmintonTrain. Train smarter, play better.</p>
         </div>
       </footer>
+
+      {/* Quick Actions FAB */}
+      <QuickActions onAction={handleQuickAction} />
+
+      {/* Onboarding Modal */}
+      {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
+
+      {/* Milestone Celebration */}
+      <MilestoneCelebration
+        milestone={milestone}
+        onClose={() => setMilestone(null)}
+        onShare={handleShareMilestone}
+      />
+
+      {/* Share Progress Dialog */}
+      {shareData && (
+        <ShareProgress
+          open={!!shareData}
+          onClose={() => setShareData(null)}
+          data={shareData}
+        />
+      )}
     </div>
   );
 };

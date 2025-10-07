@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar, Plus, Trophy, TrendingDown } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Calendar, Plus, Trophy, TrendingDown, Timer, Zap, Tag } from "lucide-react";
 import { toast } from "sonner";
 
 interface Match {
@@ -15,6 +16,11 @@ interface Match {
   result: "win" | "loss";
   date: string;
   notes: string;
+  matchType?: "practice" | "tournament" | "casual";
+  duration?: number; // in minutes
+  energyBefore?: number; // 1-5 scale
+  energyAfter?: number; // 1-5 scale
+  tags?: string[];
 }
 
 export const MatchTracker = () => {
@@ -28,6 +34,11 @@ export const MatchTracker = () => {
   const [opponentScore, setOpponentScore] = useState("");
   const [matchDate, setMatchDate] = useState("");
   const [notes, setNotes] = useState("");
+  const [matchType, setMatchType] = useState<"practice" | "tournament" | "casual">("casual");
+  const [duration, setDuration] = useState("");
+  const [energyBefore, setEnergyBefore] = useState("3");
+  const [energyAfter, setEnergyAfter] = useState("3");
+  const [tags, setTags] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +59,11 @@ export const MatchTracker = () => {
       result: pScore > oScore ? "win" : "loss",
       date: matchDate,
       notes: notes,
+      matchType,
+      duration: duration ? parseInt(duration) : undefined,
+      energyBefore: parseInt(energyBefore),
+      energyAfter: parseInt(energyAfter),
+      tags: tags ? tags.split(",").map(t => t.trim()).filter(Boolean) : [],
     };
 
     const updatedMatches = [newMatch, ...matches];
@@ -61,6 +77,11 @@ export const MatchTracker = () => {
     setOpponentScore("");
     setMatchDate("");
     setNotes("");
+    setMatchType("casual");
+    setDuration("");
+    setEnergyBefore("3");
+    setEnergyAfter("3");
+    setTags("");
     setShowForm(false);
   };
 
@@ -108,6 +129,20 @@ export const MatchTracker = () => {
               </div>
             </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="matchType">Match Type</Label>
+              <Select value={matchType} onValueChange={(value: any) => setMatchType(value)}>
+                <SelectTrigger id="matchType">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="casual">Casual</SelectItem>
+                  <SelectItem value="practice">Practice</SelectItem>
+                  <SelectItem value="tournament">Tournament</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="playerScore">Your Score</Label>
@@ -133,6 +168,72 @@ export const MatchTracker = () => {
                   required
                 />
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="duration" className="flex items-center gap-2">
+                  <Timer className="w-4 h-4" />
+                  Duration (min)
+                </Label>
+                <Input
+                  id="duration"
+                  type="number"
+                  min="0"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  placeholder="45"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="energyBefore" className="flex items-center gap-2">
+                  <Zap className="w-4 h-4" />
+                  Energy Before
+                </Label>
+                <Select value={energyBefore} onValueChange={setEnergyBefore}>
+                  <SelectTrigger id="energyBefore">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1 - Very Low</SelectItem>
+                    <SelectItem value="2">2 - Low</SelectItem>
+                    <SelectItem value="3">3 - Medium</SelectItem>
+                    <SelectItem value="4">4 - High</SelectItem>
+                    <SelectItem value="5">5 - Very High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="energyAfter" className="flex items-center gap-2">
+                  <Zap className="w-4 h-4" />
+                  Energy After
+                </Label>
+                <Select value={energyAfter} onValueChange={setEnergyAfter}>
+                  <SelectTrigger id="energyAfter">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1 - Very Low</SelectItem>
+                    <SelectItem value="2">2 - Low</SelectItem>
+                    <SelectItem value="3">3 - Medium</SelectItem>
+                    <SelectItem value="4">4 - High</SelectItem>
+                    <SelectItem value="5">5 - Very High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="tags" className="flex items-center gap-2">
+                <Tag className="w-4 h-4" />
+                Tags (comma-separated)
+              </Label>
+              <Input
+                id="tags"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                placeholder="good serves, weak backhand, footwork"
+              />
             </div>
 
             <div className="space-y-2">
@@ -219,11 +320,53 @@ export const MatchTracker = () => {
                 </div>
               </div>
 
-              {match.notes && (
-                <div className="pt-3 border-t">
-                  <p className="text-sm text-muted-foreground">{match.notes}</p>
-                </div>
-              )}
+              <div className="space-y-3">
+                {match.matchType && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="px-2 py-1 bg-muted rounded-md capitalize">{match.matchType}</span>
+                    {match.duration && (
+                      <span className="flex items-center gap-1 text-muted-foreground">
+                        <Timer className="w-4 h-4" />
+                        {match.duration} min
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {(match.energyBefore || match.energyAfter) && (
+                  <div className="flex items-center gap-4 text-sm">
+                    {match.energyBefore && (
+                      <div className="flex items-center gap-1">
+                        <Zap className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">Before: {match.energyBefore}/5</span>
+                      </div>
+                    )}
+                    {match.energyAfter && (
+                      <div className="flex items-center gap-1">
+                        <Zap className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-muted-foreground">After: {match.energyAfter}/5</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {match.tags && match.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {match.tags.map((tag, idx) => (
+                      <span key={idx} className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md flex items-center gap-1">
+                        <Tag className="w-3 h-3" />
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {match.notes && (
+                  <div className="pt-3 border-t">
+                    <p className="text-sm text-muted-foreground">{match.notes}</p>
+                  </div>
+                )}
+              </div>
             </Card>
           ))
         )}
