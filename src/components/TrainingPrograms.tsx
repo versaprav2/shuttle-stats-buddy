@@ -29,7 +29,7 @@ const drills: Drill[] = [
     difficulty: "beginner",
     icon: <Footprints className="w-6 h-6" />,
     description: "Master basic court movement patterns and stepping techniques",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    videoUrl: "https://www.youtube.com/watch?v=fBa08o5GEqw",
     detailedInfo: {
       objective: "Develop efficient court coverage through proper footwork patterns, enabling quick transitions between all court positions while maintaining balance and readiness.",
       keyPoints: [
@@ -70,7 +70,7 @@ const drills: Drill[] = [
     difficulty: "beginner",
     icon: <Target className="w-6 h-6" />,
     description: "Learn proper short and long serve fundamentals",
-    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    videoUrl: "https://www.youtube.com/watch?v=AjsGVvK8vE4",
     detailedInfo: {
       objective: "Master both short and long serve techniques to control rally initiation and put pressure on opponents from the first shot.",
       keyPoints: [
@@ -112,7 +112,7 @@ const drills: Drill[] = [
     difficulty: "beginner",
     icon: <Zap className="w-6 h-6" />,
     description: "Develop consistent overhead clear technique",
-    videoUrl: "https://www.youtube.com/watch?v=example3",
+    videoUrl: "https://www.youtube.com/watch?v=vqZ7A9mp1ds",
     detailedInfo: {
       objective: "Perfect the overhead clear shot to send the shuttle high and deep to the back of the opponent's court.",
       keyPoints: ["High contact point above head", "Full arm extension", "Wrist snap at contact", "Follow through toward target", "Weight transfer from back to front"],
@@ -127,7 +127,7 @@ const drills: Drill[] = [
     difficulty: "beginner",
     icon: <CheckCircle2 className="w-6 h-6" />,
     description: "Perfect forehand and backhand grip transitions",
-    videoUrl: "https://www.youtube.com/watch?v=example4",
+    videoUrl: "https://www.youtube.com/watch?v=SYrQpukYeG0",
     detailedInfo: {
       objective: "Master quick and efficient grip changes between forehand and backhand for all shot types.",
       keyPoints: ["Relaxed grip between shots", "Quick rotation", "Correct thumb placement", "Consistent grip pressure", "Natural transitions"],
@@ -142,7 +142,7 @@ const drills: Drill[] = [
     difficulty: "beginner",
     icon: <Footprints className="w-6 h-6" />,
     description: "Practice movement patterns without a shuttlecock",
-    videoUrl: "https://www.youtube.com/watch?v=example5",
+    videoUrl: "https://www.youtube.com/watch?v=d4QJMcvGfAc",
     detailedInfo: {
       objective: "Improve footwork speed, accuracy and shot technique through shadow practice without a shuttle.",
       keyPoints: ["Full movement patterns", "Realistic shot motions", "Quick returns to center", "Proper stance", "Sustained intensity"],
@@ -157,7 +157,7 @@ const drills: Drill[] = [
     difficulty: "intermediate",
     icon: <Zap className="w-6 h-6" />,
     description: "Develop explosive smash power with targeted exercises",
-    videoUrl: "https://www.youtube.com/watch?v=example6",
+    videoUrl: "https://www.youtube.com/watch?v=c_siA4X1BLE",
     detailedInfo: {
       objective: "Build explosive power for devastating smash shots through strength and technique training.",
       keyPoints: ["Jump timing", "Full body rotation", "Wrist snap", "Contact at highest point", "Core engagement"],
@@ -172,7 +172,7 @@ const drills: Drill[] = [
     difficulty: "intermediate",
     icon: <Target className="w-6 h-6" />,
     description: "Master fast-paced flat drives at mid-court",
-    videoUrl: "https://www.youtube.com/watch?v=example7",
+    videoUrl: "https://www.youtube.com/watch?v=F7Clf4SnTlI",
     detailedInfo: {
       objective: "Perfect fast, flat drives for aggressive mid-court exchanges and quick attacks.",
       keyPoints: ["Compact swing", "Flat trajectory", "Quick recovery", "Forehand and backhand", "Pace control"],
@@ -187,7 +187,7 @@ const drills: Drill[] = [
     difficulty: "intermediate",
     icon: <CheckCircle2 className="w-6 h-6" />,
     description: "Sharpen your net kill and interception skills",
-    videoUrl: "https://www.youtube.com/watch?v=example8",
+    videoUrl: "https://www.youtube.com/watch?v=xRv1JLg4NMM",
     detailedInfo: {
       objective: "Develop sharp net kills and quick interception skills at the front court.",
       keyPoints: ["Early contact", "Wrist control", "Steep angle", "Quick recovery", "Anticipation"],
@@ -202,7 +202,7 @@ const drills: Drill[] = [
     difficulty: "intermediate",
     icon: <Dumbbell className="w-6 h-6" />,
     description: "Increase stamina for longer, more intense matches",
-    videoUrl: "https://www.youtube.com/watch?v=example9",
+    videoUrl: "https://www.youtube.com/watch?v=5ZP7oB0sC8s",
     detailedInfo: {
       objective: "Build cardiovascular endurance and muscular stamina for sustained high-level performance.",
       keyPoints: ["Progressive intervals", "Consistent pace", "Full court coverage", "Recovery management", "Mental toughness"],
@@ -217,7 +217,7 @@ const drills: Drill[] = [
     difficulty: "intermediate",
     icon: <Target className="w-6 h-6" />,
     description: "Learn to read opponents and respond defensively",
-    videoUrl: "https://www.youtube.com/watch?v=example10",
+    videoUrl: "https://www.youtube.com/watch?v=6dKBulvvLBI",
     detailedInfo: {
       objective: "Master defensive positioning, shot selection, and court coverage under pressure.",
       keyPoints: ["Low stance", "Quick returns", "Shot selection", "Court awareness", "Patience"],
@@ -232,7 +232,7 @@ const drills: Drill[] = [
     difficulty: "intermediate",
     icon: <Zap className="w-6 h-6" />,
     description: "High-intensity drill with continuous shuttle feeding",
-    videoUrl: "https://www.youtube.com/watch?v=example11",
+    videoUrl: "https://www.youtube.com/watch?v=LxO6jFe8WW8",
     detailedInfo: {
       objective: "Build explosive power and endurance through rapid-fire shuttle feeding drills.",
       keyPoints: ["Continuous movement", "Quick reactions", "Technique maintenance", "High intensity", "Focus"],
@@ -247,7 +247,7 @@ const drills: Drill[] = [
     difficulty: "advanced",
     icon: <Target className="w-6 h-6" />,
     description: "Perfect your drop shot accuracy and deception",
-    videoUrl: "https://www.youtube.com/watch?v=example12",
+    videoUrl: "https://www.youtube.com/watch?v=lT-_jXEcBWU",
     detailedInfo: {
       objective: "Master deceptive drop shots with pinpoint accuracy and disguise.",
       keyPoints: ["Smash disguise", "Soft touch", "Steep angle", "Placement variety", "Deception"],
@@ -262,7 +262,7 @@ const drills: Drill[] = [
     difficulty: "advanced",
     icon: <CheckCircle2 className="w-6 h-6" />,
     description: "Refine net shots, lifts, and front-court dominance",
-    videoUrl: "https://www.youtube.com/watch?v=example13",
+    videoUrl: "https://www.youtube.com/watch?v=LnNMddYAPao",
     detailedInfo: {
       objective: "Dominate front-court play with precise net shots, tumbles, and lifts.",
       keyPoints: ["Soft hands", "Tight spins", "Quick reactions", "Shot variety", "Court positioning"],
@@ -277,7 +277,7 @@ const drills: Drill[] = [
     difficulty: "advanced",
     icon: <Target className="w-6 h-6" />,
     description: "Master slice drops, reverse slices, and feints",
-    videoUrl: "https://www.youtube.com/watch?v=example14",
+    videoUrl: "https://www.youtube.com/watch?v=134oCwFhPMg",
     detailedInfo: {
       objective: "Develop advanced deception techniques to confuse and outmaneuver opponents.",
       keyPoints: ["Body disguise", "Racket control", "Slice technique", "Reverse slice", "Timing"],
@@ -292,7 +292,7 @@ const drills: Drill[] = [
     difficulty: "advanced",
     icon: <Zap className="w-6 h-6" />,
     description: "Develop power and control in jump smashes",
-    videoUrl: "https://www.youtube.com/watch?v=example15",
+    videoUrl: "https://www.youtube.com/watch?v=8vjcOxnK7q0",
     detailedInfo: {
       objective: "Perfect the explosive jump smash for maximum power and intimidation.",
       keyPoints: ["Jump timing", "Peak contact", "Body control", "Landing safety", "Power generation"],
@@ -307,7 +307,7 @@ const drills: Drill[] = [
     difficulty: "advanced",
     icon: <Dumbbell className="w-6 h-6" />,
     description: "Full match scenarios with pressure situations",
-    videoUrl: "https://www.youtube.com/watch?v=example16",
+    videoUrl: "https://www.youtube.com/watch?v=DVRhNqFOCbU",
     detailedInfo: {
       objective: "Simulate real match conditions with pressure, tactics, and endurance challenges.",
       keyPoints: ["Match intensity", "Tactical play", "Pressure management", "Full duration", "Recovery practice"],
@@ -322,7 +322,7 @@ const drills: Drill[] = [
     difficulty: "advanced",
     icon: <Footprints className="w-6 h-6" />,
     description: "Maximize efficiency in court movement and recovery",
-    videoUrl: "https://www.youtube.com/watch?v=example17",
+    videoUrl: "https://www.youtube.com/watch?v=fBa08o5GEqw",
     detailedInfo: {
       objective: "Optimize movement patterns for maximum court coverage with minimal energy expenditure.",
       keyPoints: ["Efficient paths", "Quick recovery", "Center position", "Energy conservation", "Pattern recognition"],
@@ -337,7 +337,7 @@ const drills: Drill[] = [
     difficulty: "advanced",
     icon: <Target className="w-6 h-6" />,
     description: "Master flick serves, drive serves, and serve placement",
-    videoUrl: "https://www.youtube.com/watch?v=example18",
+    videoUrl: "https://www.youtube.com/watch?v=M35ckvleKac",
     detailedInfo: {
       objective: "Master all serve variations including flick, drive, and placement serves for tactical advantage.",
       keyPoints: ["Serve variety", "Deception", "Placement precision", "Timing variation", "Tactical usage"],
