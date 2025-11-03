@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Activity, Target, Trophy, Menu, X, LogOut, User, Timer, Calendar, Award, BarChart3, Flame, Flag } from "lucide-react";
+import { Target, Trophy, Timer, Calendar, Award } from "lucide-react";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { Dashboard } from "@/components/Dashboard";
 import { MatchTracker } from "@/components/MatchTracker";
 import { TrainingPrograms } from "@/components/TrainingPrograms";
@@ -24,12 +26,11 @@ type View = "home" | "dashboard" | "progress" | "challenges" | "goals" | "matche
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<View>("home");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [milestone, setMilestone] = useState<any>(null);
   const [shareData, setShareData] = useState<any>(null);
   const { addXP, updateStreak } = useGamification();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
     // Check if onboarding completed
@@ -50,11 +51,6 @@ const Index = () => {
     // Update streak
     updateStreak();
   }, []);
-
-  const handleLogout = async () => {
-    await signOut();
-    toast.success("Logged out successfully");
-  };
 
   const handleQuickAction = (action: "match" | "timer" | "drill") => {
     switch (action) {
@@ -83,18 +79,6 @@ const Index = () => {
     }
   };
 
-
-  const navigationItems = [
-    { id: "dashboard" as View, label: "Dashboard", icon: <Activity className="w-5 h-5" /> },
-    { id: "progress" as View, label: "Progress", icon: <BarChart3 className="w-5 h-5" /> },
-    { id: "challenges" as View, label: "Challenges", icon: <Flame className="w-5 h-5" /> },
-    { id: "goals" as View, label: "Goals", icon: <Flag className="w-5 h-5" /> },
-    { id: "matches" as View, label: "Matches", icon: <Trophy className="w-5 h-5" /> },
-    { id: "plans" as View, label: "Training Plans", icon: <Calendar className="w-5 h-5" /> },
-    { id: "fundamentals" as View, label: "Fundamentals", icon: <Target className="w-5 h-5" /> },
-    { id: "timer" as View, label: "Timer", icon: <Timer className="w-5 h-5" /> },
-    { id: "achievements" as View, label: "Achievements", icon: <Award className="w-5 h-5" /> },
-  ];
 
   const renderContent = () => {
     switch (currentView) {
@@ -206,95 +190,45 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-lg border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => setCurrentView("home")}
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-            >
-              <div className="p-2 bg-gradient-to-br from-primary to-accent rounded-xl">
-                <Trophy className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                BadmintonTrain
-              </span>
-            </button>
+    <SidebarProvider>
+      <div className="min-h-screen w-full flex bg-gradient-to-b from-background via-primary/5 to-background">
+        <AppSidebar currentView={currentView} onViewChange={setCurrentView} />
+        
+        <div className="flex-1 flex flex-col w-full">
+          {/* Header with Sidebar Toggle */}
+          <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-lg border-b">
+            <div className="flex items-center h-16 px-4 gap-4">
+              <SidebarTrigger />
+              <h1 className="text-lg font-semibold">
+                {currentView === "home" && "Home"}
+                {currentView === "dashboard" && "Dashboard"}
+                {currentView === "progress" && "Progress"}
+                {currentView === "challenges" && "Challenges"}
+                {currentView === "goals" && "Goals"}
+                {currentView === "matches" && "Match Tracker"}
+                {currentView === "plans" && "Training Plans"}
+                {currentView === "fundamentals" && "Fundamentals"}
+                {currentView === "timer" && "Workout Timer"}
+                {currentView === "achievements" && "Achievements"}
+              </h1>
+            </div>
+          </header>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-2">
-              {navigationItems.map((item) => (
-                <Button
-                  key={item.id}
-                  variant={currentView === item.id ? "default" : "ghost"}
-                  onClick={() => setCurrentView(item.id)}
-                  className="gap-2"
-                >
-                  {item.icon}
-                  {item.label}
-                </Button>
-              ))}
-              <Button variant="ghost" className="gap-2">
-                <User className="w-5 h-5" />
-                {user?.email}
-              </Button>
-              <Button variant="ghost" onClick={handleLogout} className="gap-2">
-                <LogOut className="w-5 h-5" />
-              </Button>
-            </nav>
+          {/* Main Content */}
+          <main className="flex-1 overflow-auto">
+            <div className="container mx-auto px-4 py-8 max-w-7xl">
+              {renderContent()}
+            </div>
+          </main>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 hover:bg-accent/10 rounded-lg transition-colors"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-
-          {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <nav className="md:hidden mt-4 space-y-2 pb-4">
-              {navigationItems.map((item) => (
-                <Button
-                  key={item.id}
-                  variant={currentView === item.id ? "default" : "ghost"}
-                  onClick={() => {
-                    setCurrentView(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full justify-start gap-2"
-                >
-                  {item.icon}
-                  {item.label}
-                </Button>
-              ))}
-              <Button variant="ghost" className="w-full justify-start gap-2">
-                <User className="w-5 h-5" />
-                {user?.email}
-              </Button>
-              <Button variant="ghost" onClick={handleLogout} className="w-full justify-start gap-2">
-                <LogOut className="w-5 h-5" />
-                Logout
-              </Button>
-            </nav>
-          )}
+          {/* Footer */}
+          <footer className="border-t py-6">
+            <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+              <p>© 2025 BadmintonTrain. Train smarter, play better.</p>
+            </div>
+          </footer>
         </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 max-w-7xl">
-        {renderContent()}
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t mt-16 py-8">
-        <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>© 2025 BadmintonTrain. Train smarter, play better.</p>
-        </div>
-      </footer>
+      </div>
 
       {/* Quick Actions FAB */}
       <QuickActions onAction={handleQuickAction} />
@@ -317,7 +251,7 @@ const Index = () => {
           data={shareData}
         />
       )}
-    </div>
+    </SidebarProvider>
   );
 };
 
