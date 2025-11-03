@@ -35,6 +35,7 @@ import {
 import { toast } from "sonner";
 
 interface TimerSettings {
+  timerName: string;
   workDuration: number;
   restDuration: number;
   rounds: number;
@@ -55,6 +56,7 @@ type TimerPhase = "prep" | "work" | "rest" | "longrest" | "completed";
 
 export const WorkoutTimer = () => {
   const [settings, setSettings] = useState<TimerSettings>({
+    timerName: "My Workout",
     workDuration: 40,
     restDuration: 20,
     rounds: 8,
@@ -358,7 +360,7 @@ export const WorkoutTimer = () => {
     <Card className="p-8 border-2">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Workout Timer</h2>
+          <h2 className="text-2xl font-bold">{settings.timerName}</h2>
           <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
             <DialogTrigger asChild>
               <Button variant="outline" size="icon">
@@ -374,6 +376,18 @@ export const WorkoutTimer = () => {
               </DialogHeader>
               
               <div className="space-y-6">
+                <div>
+                  <Label>Timer Name</Label>
+                  <Input
+                    type="text"
+                    value={settings.timerName}
+                    onChange={(e) =>
+                      setSettings({ ...settings, timerName: e.target.value })
+                    }
+                    placeholder="Enter timer name"
+                  />
+                </div>
+
                 <div>
                   <Label>Timer Mode</Label>
                   <Select
