@@ -41,6 +41,7 @@ interface TimerSettings {
   rounds: number;
   prepTime: number;
   soundEnabled: boolean;
+  voiceEnabled: boolean;
   autoStart: boolean;
   workIntervals: number;
   longRestDuration: number;
@@ -62,6 +63,7 @@ export const WorkoutTimer = () => {
     rounds: 8,
     prepTime: 10,
     soundEnabled: true,
+    voiceEnabled: true,
     autoStart: true,
     workIntervals: 1,
     longRestDuration: 60,
@@ -121,6 +123,20 @@ export const WorkoutTimer = () => {
     playBeep(1000, 0.3, 0.6);
   };
 
+  const speak = (text: string) => {
+    if (!settings.voiceEnabled) return;
+    
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+    
+    window.speechSynthesis.speak(utterance);
+  };
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -160,12 +176,14 @@ export const WorkoutTimer = () => {
       setCurrentPhase("work");
       setTimeRemaining(settings.workDuration);
       toast.info("Work Time!", { description: "Give it your all!" });
+      speak("Work time");
     } else if (currentPhase === "work") {
       if (currentInterval < settings.workIntervals) {
         setCurrentInterval(currentInterval + 1);
         setCurrentPhase("rest");
         setTimeRemaining(settings.restDuration);
         toast.success("Rest Time", { description: "Catch your breath" });
+        speak("Rest");
       } else if (currentRound < settings.rounds) {
         const shouldTakeLongRest = 
           settings.longRestAfter > 0 && 
@@ -175,10 +193,12 @@ export const WorkoutTimer = () => {
           setCurrentPhase("longrest");
           setTimeRemaining(settings.longRestDuration);
           toast.success("Long Rest", { description: "Well deserved break!" });
+          speak("Long rest");
         } else {
           setCurrentPhase("rest");
           setTimeRemaining(settings.restDuration);
           toast.success("Rest Time", { description: "Catch your breath" });
+          speak("Rest");
         }
       } else {
         setCurrentPhase("completed");
@@ -186,6 +206,7 @@ export const WorkoutTimer = () => {
         toast.success("Workout Complete! 🎉", { 
           description: "Great job! You crushed it!" 
         });
+        speak("Workout complete! Great job!");
         playBeep(1000, 0.3);
         return;
       }
@@ -196,6 +217,7 @@ export const WorkoutTimer = () => {
         setCurrentPhase("work");
         setTimeRemaining(settings.workDuration);
         toast.info(`Round ${currentRound + 1}`, { description: "Let's go!" });
+        speak(`Round ${currentRound + 1}`);
       } else {
         setIsRunning(false);
         setCurrentPhase("work");
@@ -211,6 +233,7 @@ export const WorkoutTimer = () => {
     playStartSequence();
     setIsRunning(true);
     toast.success("Timer Started!", { description: "Let's go! 💪" });
+    speak(`Starting ${settings.timerName}. Get ready!`);
   };
 
   const handlePause = () => {
@@ -543,6 +566,15 @@ export const WorkoutTimer = () => {
                       checked={settings.soundEnabled}
                       onCheckedChange={(checked) =>
                         setSettings({ ...settings, soundEnabled: checked })
+                      }
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Label>Voice Announcements</Label>
+                    <Switch
+                      checked={settings.voiceEnabled}
+                      onCheckedChange={(checked) =>
+                        setSettings({ ...settings, voiceEnabled: checked })
                       }
                     />
                   </div>
