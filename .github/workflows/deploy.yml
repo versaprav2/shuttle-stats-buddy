@@ -1,0 +1,48 @@
+name: Deploy Frontend to Hostinger
+
+on:
+  push:
+    branches:
+      - main # Change this to the branch you deploy from (e.g., master or main)
+  workflow_dispatch: # Allows manual triggering from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Use a modern Node version
+
+      # --- BUILD STEP (Crucial for VITE/REACT/LOVABLE) ---
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build static files (e.g., using Vite)
+        # Assuming your build command is 'npm run build'
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # This should match the directory where your build output goes 
+          # (usually 'dist' for Vite, or 'build' for Create React App)
+          path: './dist' 
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
