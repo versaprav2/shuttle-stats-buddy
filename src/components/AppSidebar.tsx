@@ -11,7 +11,10 @@ import {
   Home,
   LogOut,
   User,
-  TrendingUp
+  TrendingUp,
+  MessageSquare,
+  Lightbulb,
+  Video
 } from "lucide-react";
 import {
   Sidebar,
@@ -27,7 +30,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
-type View = "home" | "dashboard" | "progress" | "challenges" | "goals" | "matches" | "plans" | "fundamentals" | "timer" | "achievements" | "periodization";
+type View = "home" | "dashboard" | "progress" | "challenges" | "goals" | "matches" | "plans" | "fundamentals" | "timer" | "achievements" | "periodization" | "coach" | "recommendations" | "video-review";
 
 interface AppSidebarProps {
   currentView: View;
@@ -52,6 +55,12 @@ const trackingItems = [
   { id: "challenges" as View, label: "Challenges", icon: Flame },
   { id: "goals" as View, label: "Goals", icon: Flag },
   { id: "achievements" as View, label: "Achievements", icon: Award },
+];
+
+const coachingItems = [
+  { id: "coach" as View, label: "Coach", icon: MessageSquare },
+  { id: "recommendations" as View, label: "Recommendations", icon: Lightbulb },
+  { id: "video-review" as View, label: "Video Review", icon: Video },
 ];
 
 export function AppSidebar({ currentView, onViewChange }: AppSidebarProps) {
@@ -124,6 +133,16 @@ export function AppSidebar({ currentView, onViewChange }: AppSidebarProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {renderMenuItems(trackingItems)}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Coaching Section */}
+        <SidebarGroup>
+          {!collapsed && <SidebarGroupLabel>Coaching & Analysis</SidebarGroupLabel>}
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {renderMenuItems(coachingItems)}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
