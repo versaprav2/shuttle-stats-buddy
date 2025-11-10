@@ -19,8 +19,10 @@ import {
   ChartTooltipContent
 } from "@/components/ui/chart";
 import { Line, LineChart, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export const ProgressHub = () => {
+  const { t } = useLanguage();
   const [weeklySummary, setWeeklySummary] = useState<any>(null);
   const [heatmap, setHeatmap] = useState<any>({});
   const [trends, setTrends] = useState<any[]>([]);
@@ -77,9 +79,9 @@ export const ProgressHub = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-          Progress Hub
+          {t("progress.title")}
         </h1>
-        <p className="text-muted-foreground">Your complete training overview and insights</p>
+        <p className="text-muted-foreground">{t("progress.subtitle")}</p>
       </div>
 
       {/* Momentum Score */}

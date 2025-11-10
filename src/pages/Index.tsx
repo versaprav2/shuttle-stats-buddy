@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Target, Trophy, Timer, Calendar, Award } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
+import { TopNav } from "@/components/TopNav";
 import { Dashboard } from "@/components/Dashboard";
 import { MatchTracker } from "@/components/MatchTracker";
 import { TrainingPrograms } from "@/components/TrainingPrograms";
@@ -204,49 +203,22 @@ const Index = () => {
   };
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen w-full flex bg-gradient-to-b from-background via-primary/5 to-background">
-        <AppSidebar currentView={currentView} onViewChange={setCurrentView} />
-        
-        <div className="flex-1 flex flex-col w-full">
-          {/* Header with Sidebar Toggle */}
-          <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-lg border-b">
-            <div className="flex items-center h-16 px-4 gap-4">
-              <SidebarTrigger />
-              <h1 className="text-lg font-semibold">
-                {currentView === "home" && t("nav.home")}
-                {currentView === "dashboard" && t("nav.dashboard")}
-                {currentView === "progress" && t("nav.progress")}
-                {currentView === "challenges" && t("nav.challenges")}
-                {currentView === "goals" && t("nav.goals")}
-                {currentView === "matches" && t("nav.matches")}
-                {currentView === "plans" && t("nav.trainingPlans")}
-                {currentView === "fundamentals" && t("nav.fundamentals")}
-                {currentView === "timer" && t("nav.timer")}
-                {currentView === "achievements" && t("nav.achievements")}
-                {currentView === "periodization" && t("nav.periodization")}
-                {currentView === "coach" && t("nav.coach")}
-                {currentView === "recommendations" && t("nav.recommendations")}
-                {currentView === "video-review" && t("nav.videoReview")}
-              </h1>
-            </div>
-          </header>
-
-          {/* Main Content */}
-          <main className="flex-1 overflow-auto">
-            <div className="container mx-auto px-4 py-8 max-w-7xl">
-              {renderContent()}
-            </div>
-          </main>
-
-          {/* Footer */}
-          <footer className="border-t py-6">
-            <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-              <p>{t("footer.copyright")}</p>
-            </div>
-          </footer>
+    <div className="min-h-screen w-full bg-gradient-to-b from-background via-primary/5 to-background">
+      <TopNav currentView={currentView} onViewChange={setCurrentView} />
+      
+      {/* Main Content */}
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
+          {renderContent()}
         </div>
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t py-6 mt-12">
+        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+          <p>{t("footer.copyright")}</p>
+        </div>
+      </footer>
 
       {/* Quick Actions FAB */}
       <QuickActions onAction={handleQuickAction} />
@@ -269,7 +241,7 @@ const Index = () => {
           data={shareData}
         />
       )}
-    </SidebarProvider>
+    </div>
   );
 };
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Trophy, Target, Zap } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface StatCardProps {
   title: string;
@@ -27,6 +28,7 @@ const StatCard = ({ title, value, icon }: StatCardProps) => (
 );
 
 export const Dashboard = () => {
+  const { t } = useLanguage();
   const [matches, setMatches] = useState<any[]>([]);
   const [stats, setStats] = useState({
     totalMatches: 0,
@@ -62,29 +64,29 @@ export const Dashboard = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold mb-2">Performance Overview</h2>
-        <p className="text-muted-foreground">Track your badminton journey</p>
+        <h2 className="text-3xl font-bold mb-2">{t("dashboard.title")}</h2>
+        <p className="text-muted-foreground">{t("dashboard.subtitle")}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
-          title="Matches Played"
+          title={t("dashboard.matchesPlayed")}
           value={stats.totalMatches.toString()}
           icon={<Trophy className="w-6 h-6" />}
         />
         <StatCard
-          title="Win Rate"
+          title={t("dashboard.winRate")}
           value={`${stats.winRate}%`}
           icon={<Target className="w-6 h-6" />}
           trend={stats.winRate >= 50 ? { value: stats.winRate, isPositive: true } : undefined}
         />
         <StatCard
-          title="Total Wins"
+          title={t("dashboard.totalWins")}
           value={stats.wins.toString()}
           icon={<Trophy className="w-6 h-6" />}
         />
         <StatCard
-          title="Total Losses"
+          title={t("dashboard.totalLosses")}
           value={stats.losses.toString()}
           icon={<Zap className="w-6 h-6" />}
         />
@@ -92,7 +94,7 @@ export const Dashboard = () => {
 
       {stats.totalMatches > 0 && (
         <Card className="p-6">
-          <h3 className="text-xl font-bold mb-4">Win/Loss Ratio</h3>
+          <h3 className="text-xl font-bold mb-4">{t("dashboard.winLossRatio")}</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
@@ -117,9 +119,9 @@ export const Dashboard = () => {
       )}
 
       <Card className="p-6">
-        <h3 className="text-xl font-bold mb-4">Recent Matches</h3>
+        <h3 className="text-xl font-bold mb-4">{t("dashboard.recentMatches")}</h3>
         {matches.length === 0 ? (
-          <p className="text-muted-foreground">No matches logged yet. Start tracking your progress!</p>
+          <p className="text-muted-foreground">{t("dashboard.noMatches")}</p>
         ) : (
           <div className="space-y-4">
             {matches.slice(0, 5).map((match, index) => (
@@ -129,10 +131,10 @@ export const Dashboard = () => {
                 </div>
                 <div className="flex-1">
                   <p className="font-medium">
-                    {match.result === "win" ? "Won" : "Lost"} vs {match.opponent}
+                    {match.result === "win" ? t("dashboard.won") : t("dashboard.lost")} {t("dashboard.vs")} {match.opponent}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Score: {match.playerScore}-{match.opponentScore} • {new Date(match.date).toLocaleDateString()}
+                    {t("dashboard.score")}: {match.playerScore}-{match.opponentScore} • {new Date(match.date).toLocaleDateString()}
                   </p>
                 </div>
               </div>
