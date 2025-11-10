@@ -115,29 +115,29 @@ const Index = () => {
         return <VideoReview />;
       default:
         return (
-          <div className="space-y-12">
+          <div className="space-y-8 sm:space-y-12">
             {/* Hero Section */}
-            <div className="relative rounded-3xl overflow-hidden">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-accent/90 z-10" />
               <img
                 src={heroImage}
                 alt="Badminton training"
-                className="w-full h-[500px] object-cover"
+                className="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover"
               />
               <div className="absolute inset-0 z-20 flex items-center justify-center">
-                <div className="text-center space-y-6 px-4">
-                  <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-lg">
+                <div className="text-center space-y-4 sm:space-y-6 px-4">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white drop-shadow-lg">
                     {t("home.hero.title")}
                   </h1>
-                  <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
+                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto">
                     {t("home.hero.subtitle")}
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                     <Button
                       variant="energy"
                       size="lg"
                       onClick={() => setCurrentView("plans")}
-                      className="text-lg"
+                      className="text-base sm:text-lg w-full sm:w-auto"
                     >
                       {t("home.hero.viewPlans")}
                     </Button>
@@ -145,7 +145,7 @@ const Index = () => {
                       variant="outline"
                       size="lg"
                       onClick={() => setCurrentView("fundamentals")}
-                      className="text-lg bg-white/10 text-white border-white hover:bg-white hover:text-primary backdrop-blur-sm"
+                      className="text-base sm:text-lg bg-white/10 text-white border-white hover:bg-white hover:text-primary backdrop-blur-sm w-full sm:w-auto"
                     >
                       {t("home.hero.practiceDrills")}
                     </Button>
@@ -155,45 +155,45 @@ const Index = () => {
             </div>
 
             {/* Features Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="p-6 border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("plans")}>
-                <div className="p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-                  <Calendar className="w-8 h-8 text-primary" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <Card className="p-4 sm:p-6 border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("plans")}>
+                <div className="p-3 sm:p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl w-fit mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                  <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{t("home.features.plans.title")}</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="text-lg sm:text-xl font-bold mb-2">{t("home.features.plans.title")}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {t("home.features.plans.desc")}
                 </p>
               </Card>
 
-              <Card className="p-6 border-2 hover:border-secondary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("fundamentals")}>
-                <div className="p-4 bg-gradient-to-br from-secondary/10 to-orange-500/10 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-                  <Target className="w-8 h-8 text-secondary" />
+              <Card className="p-4 sm:p-6 border-2 hover:border-secondary/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("fundamentals")}>
+                <div className="p-3 sm:p-4 bg-gradient-to-br from-secondary/10 to-orange-500/10 rounded-xl w-fit mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                  <Target className="w-6 h-6 sm:w-8 sm:h-8 text-secondary" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{t("home.features.fundamentals.title")}</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="text-lg sm:text-xl font-bold mb-2">{t("home.features.fundamentals.title")}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {t("home.features.fundamentals.desc")}
                 </p>
               </Card>
 
-              <Card className="p-6 border-2 hover:border-accent/50 transition-all duration-300 hover:shadow-xl cursor-pointer group" onClick={() => setCurrentView("achievements")}>
-                <div className="p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-                  <Award className="w-8 h-8 text-accent" />
+              <Card className="p-4 sm:p-6 border-2 hover:border-accent/50 transition-all duration-300 hover:shadow-xl cursor-pointer group sm:col-span-2 lg:col-span-1" onClick={() => setCurrentView("achievements")}>
+                <div className="p-3 sm:p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl w-fit mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                  <Award className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{t("home.features.achievements.title")}</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="text-lg sm:text-xl font-bold mb-2">{t("home.features.achievements.title")}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {t("home.features.achievements.desc")}
                 </p>
               </Card>
             </div>
 
             {/* CTA Section */}
-            <Card className="p-12 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 border-2 border-primary/20 text-center">
-              <h2 className="text-4xl font-bold mb-4">{t("home.cta.title")}</h2>
-              <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
+            <Card className="p-6 sm:p-8 md:p-12 bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 border-2 border-primary/20 text-center">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">{t("home.cta.title")}</h2>
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto">
                 {t("home.cta.subtitle")}
               </p>
-              <Button variant="gradient" size="lg" onClick={() => setCurrentView("dashboard")} className="text-lg">
+              <Button variant="gradient" size="lg" onClick={() => setCurrentView("dashboard")} className="text-base sm:text-lg w-full sm:w-auto">
                 {t("home.cta.button")}
               </Button>
             </Card>
@@ -208,14 +208,14 @@ const Index = () => {
       
       {/* Main Content */}
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="container mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 max-w-7xl">
           {renderContent()}
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-6 mt-12">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+      <footer className="border-t py-4 sm:py-6 mt-8 sm:mt-12">
+        <div className="container mx-auto px-3 sm:px-4 text-center text-xs sm:text-sm text-muted-foreground">
           <p>{t("footer.copyright")}</p>
         </div>
       </footer>

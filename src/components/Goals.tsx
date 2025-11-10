@@ -186,20 +186,21 @@ export const Goals = () => {
   const expiredGoals = goals.filter(g => new Date(g.deadline) < new Date() && g.current < g.target);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Goals
           </h1>
-          <p className="text-muted-foreground">Set and track your badminton goals</p>
+          <p className="text-sm sm:text-base text-muted-foreground">Set and track your badminton goals</p>
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button variant="gradient" className="gap-2">
+            <Button variant="gradient" className="gap-2 w-full sm:w-auto">
               <Plus className="w-4 h-4" />
-              New Goal
+              <span className="hidden sm:inline">New Goal</span>
+              <span className="sm:hidden">New</span>
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -315,8 +316,8 @@ export const Goals = () => {
       {/* Active Goals */}
       {activeGoals.length > 0 && (
         <div>
-          <h2 className="text-2xl font-bold mb-4">Active Goals</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Active Goals</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
             {activeGoals.map(goal => (
               <Card
                 key={goal.id}

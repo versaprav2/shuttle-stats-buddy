@@ -76,12 +76,12 @@ export const ProgressHub = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
           {t("progress.title")}
         </h1>
-        <p className="text-muted-foreground">{t("progress.subtitle")}</p>
+        <p className="text-sm sm:text-base text-muted-foreground">{t("progress.subtitle")}</p>
       </div>
 
       {/* Momentum Score */}
@@ -107,11 +107,11 @@ export const ProgressHub = () => {
 
       {/* Weekly Summary */}
       <div>
-        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-          <Calendar className="w-6 h-6 text-primary" />
+        <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 flex items-center gap-2">
+          <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
           This Week
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <Card className="p-4">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-primary/10 rounded-lg">

@@ -12,15 +12,15 @@ interface StatCardProps {
 }
 
 const StatCard = ({ title, value, icon }: StatCardProps) => (
-  <Card className="p-6 hover:shadow-lg transition-all duration-300 border-2">
+  <Card className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 border-2">
     <div className="flex items-start justify-between">
-      <div>
-        <p className="text-sm text-muted-foreground font-medium mb-2">{title}</p>
-        <p className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <div className="flex-1 min-w-0">
+        <p className="text-xs sm:text-sm text-muted-foreground font-medium mb-1 sm:mb-2">{title}</p>
+        <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent truncate">
           {value}
         </p>
       </div>
-      <div className="p-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl">
+      <div className="p-2 sm:p-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex-shrink-0">
         {icon}
       </div>
     </div>
@@ -62,13 +62,13 @@ export const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <h2 className="text-3xl font-bold mb-2">{t("dashboard.title")}</h2>
-        <p className="text-muted-foreground">{t("dashboard.subtitle")}</p>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2">{t("dashboard.title")}</h2>
+        <p className="text-sm sm:text-base text-muted-foreground">{t("dashboard.subtitle")}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <StatCard
           title={t("dashboard.matchesPlayed")}
           value={stats.totalMatches.toString()}

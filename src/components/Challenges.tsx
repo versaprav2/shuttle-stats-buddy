@@ -138,16 +138,16 @@ export default function Challenges() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Challenge Library</h1>
-          <p className="text-muted-foreground">Choose your path and push your limits</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">Challenge Library</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Choose your path and push your limits</p>
         </div>
-        <Award className="w-12 h-12 text-primary" />
+        <Award className="w-8 h-8 sm:w-12 sm:h-12 text-primary" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <Card><CardHeader><CardTitle>Active</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{activeChallenges.length}</div></CardContent></Card>
         <Card><CardHeader><CardTitle>Completed</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{completedCount}</div></CardContent></Card>
         <Card><CardHeader><CardTitle>Available XP</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-primary">{availableXP}</div></CardContent></Card>
@@ -170,7 +170,7 @@ export default function Challenges() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {filteredLibrary.map(challenge => renderChallengeCard(challenge))}
           </div>
         </div>
