@@ -9,8 +9,24 @@ import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import { Trophy } from 'lucide-react';
 
+// List of known temporary/disposable email domains
+const temporaryEmailDomains = [
+  'tempmail.com', 'guerrillamail.com', '10minutemail.com', 'throwaway.email',
+  'mailinator.com', 'maildrop.cc', 'temp-mail.org', 'getnada.com',
+  'trashmail.com', 'fakeinbox.com', 'yopmail.com', 'mohmal.com',
+  'sharklasers.com', 'guerrillamail.info', 'grr.la', 'guerrillamail.biz',
+  'spam4.me', 'guerrillamail.de', 'mintemail.com', 'mytrashmail.com'
+];
+
 const authSchema = z.object({
-  email: z.string().trim().email({ message: "Invalid email address" }).max(255),
+  email: z.string()
+    .trim()
+    .email({ message: "Invalid email address" })
+    .max(255)
+    .refine((email) => {
+      const domain = email.split('@')[1]?.toLowerCase();
+      return !temporaryEmailDomains.includes(domain);
+    }, { message: "Temporary email addresses are not allowed. Please use a permanent email address." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }).max(100),
   displayName: z.string().trim().min(2, { message: "Name must be at least 2 characters" }).max(100).optional(),
 });
