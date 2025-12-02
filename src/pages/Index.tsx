@@ -7,7 +7,7 @@ import { Dashboard } from "@/components/Dashboard";
 import { MatchTracker } from "@/components/MatchTracker";
 import { TrainingPrograms } from "@/components/TrainingPrograms";
 import { TrainingPlans } from "@/components/TrainingPlans";
-import { WorkoutTimer } from "@/components/WorkoutTimer";
+import { WorkoutTimerManager } from "@/components/WorkoutTimerManager";
 import { Achievements } from "@/components/Achievements";
 import { Onboarding } from "@/components/Onboarding";
 import { QuickActions } from "@/components/QuickActions";
@@ -102,7 +102,7 @@ const Index = () => {
       case "fundamentals":
         return <TrainingPrograms />;
       case "timer":
-        return <WorkoutTimer />;
+        return <WorkoutTimerManager />;
       case "achievements":
         return <Achievements />;
       case "periodization":
