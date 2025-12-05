@@ -41,7 +41,7 @@ jobs:
       - name: Test FTP connection
         run: |
           echo "Testing FTP connection..."
-          curl -v --user "u473711539.badmintontraining:${{ secrebadmintonts.FTP_PASSWORD }}" ftp://195.35.44.150 --max-time 10
+          curl -v --user "u473711539.badmintontraining:${{ secrets.FTP_PASSWORD }}" ftp://195.35.44.150 --max-time 10
 
       # Correct FTP deployment
       - name: Deploy to badmintontraining.praveenpanthulu
